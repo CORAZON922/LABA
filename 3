@@ -1,0 +1,71 @@
+/*
+Автор: Ващенко Владимир Васильевич, Группа: 4353, Ограничения: [-10^20;10^20]
+Версия: 1, Дата: начало - 14.10.2024, завершение - 14.10.24
+Задание: 3.2.20
+*/
+
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <math.h>
+
+using namespace std;
+
+int main() {
+	cout << "Автор: Ващенко Владимир Васильевич, Группа: 4353, Ограничения: [-10^20;10^20]\n";
+	cout << "Версия: 1, Дата: начало - 14.09.2024, завершение - 14.10.24\n";
+	cout << "Задание: 3.R2.в\n\n";
+
+	double x, eps;
+	unsigned i = 0;
+	while (i < 3) {
+		cout << "Введите x: ";
+		cin >> x;
+		i = 0;
+		while (i < 3)
+		{
+			cout << "Введите eps[0; 1e-20]: ";
+			cin >> eps;
+			if (eps >= 0 && eps <= 1e-20) {
+				fstream f;
+				f.open("out.txt", ios::out);
+				i = 0;
+				double a = 1, S = 1, q;
+				cout << fixed << setprecision(25);
+				cout << left << setw(4) << 'i' << "  " << setw(37) << 'a' << "   " << setw(37) << 'S' << '\n';
+				cout << left << setw(4) << i << "| " << setw(37) << a << "| " << setw(37) << S << '\n';
+				f << fixed << setprecision(25);
+				f << left << setw(4) << 'i' << "  " << setw(70) << 'a' << "   " << setw(70) << 'S' << '\n';
+				f << left << setw(4) << i << "| " << setw(70) << a << "| " << setw(70) << S << '\n';
+				while (fabs(a) >= eps && i < 999) {
+					q = (-1*(x*x))/((double)(i+1));
+					i++;
+					a *= q;
+					S += a;
+					cout << left << setw(4) << i << "| " << setw(37) << a << "| " << setw(37) << S << '\n';
+					f << left << setw(4) << i << "| " << setw(70) << a << "| " << setw(70) << S << '\n';
+				}
+				if (i == 999 && eps >= 1e-20) {
+					cout << "a не достигает eps при N = 1000\n";
+					f << "a не достигает eps при N = 1000\n";
+				}
+				else {
+					cout << "a < eps на шаге N = " << i + 1 << " при этом S = " << S << '\n';
+					f << "a < eps на шаге N = " << i + 1 << " при этом S = " << S << '\n';
+				}
+				f.close();
+				break;
+			}
+			else {
+				cout << "Неверное значение eps\n";
+				if (i == 2) {
+					cout << "Выход\n";
+				}
+				i++;
+			}
+
+
+		}
+		break;
+	}
+}
